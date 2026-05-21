@@ -1,6 +1,7 @@
 {
   "name": "agent-learning",
-  "version": "1.0.0",
+  "author": "tamasya",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",

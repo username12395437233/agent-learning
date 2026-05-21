@@ -2,6 +2,26 @@
 
 React + TypeScript + Vite + Tailwind CSS + shadcn/ui + TanStack Query + zustand.
 
+## Communication rules
+
+Use English for agent tasks, code comments, commit-style summaries, file reports, and technical output.
+
+Keep output concise.
+Avoid long explanations unless explicitly requested.
+Prefer structured reports:
+
+- Summary
+- Changed files
+- Validation
+- Risks
+
+When Caveman mode is active:
+
+- no filler
+- no long preambles
+- no repeated explanations
+- keep technical accuracy
+
 ## shadcn/ui and MCP rules
 
 This project uses shadcn/ui.
