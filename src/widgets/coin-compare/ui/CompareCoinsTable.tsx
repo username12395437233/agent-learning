@@ -1,13 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import type { Coin } from '@/entities/coin/model/types';
-import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import type { Coin } from '@/entities/coin';
+import { CoinChangeBadge } from '@/entities/coin';
 import { formatCompactCurrency, formatCurrency } from '@/shared/lib/formatters';
 
 interface CompareCoinsTableProps {
@@ -77,7 +70,9 @@ export function CompareCoinsTable({ coins }: CompareCoinsTableProps) {
         <TableRow>
           <TableCell>Circulating supply</TableCell>
           {coins.map((coin) => (
-            <TableCell key={`${coin.id}-supply`}>{coin.circulatingSupply.toLocaleString()}</TableCell>
+            <TableCell key={`${coin.id}-supply`}>
+              {coin.circulatingSupply.toLocaleString()}
+            </TableCell>
           ))}
         </TableRow>
       </TableBody>

@@ -1,7 +1,7 @@
 import { ArrowUpRight, Layers3, Star, Wallet } from 'lucide-react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Coin } from '@/entities/coin/model/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import type { Coin } from '@/entities/coin';
 import { formatCompactCurrency, formatPercent } from '@/shared/lib/formatters';
 
 interface MarketOverviewProps {

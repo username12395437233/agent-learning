@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import type { Coin } from '@/entities/coin/model/types';
+import type { Coin } from '@/entities/coin';
 import { readLocalStorage, writeLocalStorage } from '@/shared/lib/local-storage';
 
 const COMPARE_STORAGE_KEY = 'crypto-market-radar/compare';

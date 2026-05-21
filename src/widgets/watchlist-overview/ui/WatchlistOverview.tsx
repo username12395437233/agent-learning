@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Coin } from '@/entities/coin/model/types';
-import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import type { Coin } from '@/entities/coin';
+import { CoinChangeBadge } from '@/entities/coin';
 import { formatCurrency } from '@/shared/lib/formatters';
 
 interface WatchlistOverviewProps {

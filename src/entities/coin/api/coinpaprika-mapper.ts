@@ -1,6 +1,6 @@
-import type { Coin } from '@/entities/coin/model/types';
+import type { Coin } from '../model/types';
 
-import type { CoinPaprikaTicker } from '@/entities/coin/api/coinpaprika-client';
+import type { CoinPaprikaTicker } from './coinpaprika-client';
 
 function inferCategory(ticker: CoinPaprikaTicker): Coin['category'] {
   const upperSymbol = ticker.symbol.toUpperCase();

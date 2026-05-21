@@ -1,12 +1,12 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 
-import type { Coin } from '@/entities/coin/model/types';
+import type { Coin } from '@/entities/coin';
 import type {
   ChangeDirectionFilter,
   CoinTableFilters,
   MarketCapRangeFilter,
   PriceRangeFilter,
-} from '@/features/coin-filters/model/types';
+} from './types';
 
 const defaultFilters: CoinTableFilters = {
   search: '',

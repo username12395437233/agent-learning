@@ -2,11 +2,11 @@ import type { ColumnDef, SortingState } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, Scale } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import type { Coin } from '@/entities/coin/model/types';
-import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
-import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
+import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
+import type { Coin } from '@/entities/coin';
+import { CoinChangeBadge } from '@/entities/coin';
+import { WatchlistToggleButton } from '@/features/watchlist';
 import { formatCompactCurrency, formatCurrency } from '@/shared/lib/formatters';
 
 function SortIcon({ direction }: { direction: false | 'asc' | 'desc' }) {

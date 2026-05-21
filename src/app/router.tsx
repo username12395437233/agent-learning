@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Layout } from '@/app/Layout';
-import { CoinDetailsPage } from '@/pages/coin-details-page/ui/CoinDetailsPage';
-import { CoinsPage } from '@/pages/coins-page/ui/CoinsPage';
-import { ComparePage } from '@/pages/compare-page/ui/ComparePage';
-import { DashboardPage } from '@/pages/dashboard-page/ui/DashboardPage';
-import { WatchlistPage } from '@/pages/watchlist-page/ui/WatchlistPage';
+import { CoinDetailsPage } from '@/pages/coin-details-page';
+import { CoinsPage } from '@/pages/coins-page';
+import { ComparePage } from '@/pages/compare-page';
+import { DashboardPage } from '@/pages/dashboard-page';
+import { WatchlistPage } from '@/pages/watchlist-page';
 
 export function AppRouter() {
   return (

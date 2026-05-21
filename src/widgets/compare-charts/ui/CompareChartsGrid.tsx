@@ -1,5 +1,5 @@
-import type { Coin } from '@/entities/coin/model/types';
-import { CompareBarChartCard } from '@/widgets/compare-charts/ui/CompareBarChartCard';
+import type { Coin } from '@/entities/coin';
+import { CompareBarChartCard } from './CompareBarChartCard';
 
 interface CompareChartsGridProps {
   coins: Coin[];

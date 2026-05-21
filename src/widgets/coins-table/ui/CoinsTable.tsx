@@ -1,16 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import type { Coin } from '@/entities/coin/model/types';
-import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
-import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import type { Coin } from '@/entities/coin';
+import { CoinChangeBadge } from '@/entities/coin';
+import { WatchlistToggleButton } from '@/features/watchlist';
 import { formatCompactCurrency, formatCurrency } from '@/shared/lib/formatters';
 
 interface CoinsTableProps {

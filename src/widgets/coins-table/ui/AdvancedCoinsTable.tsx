@@ -11,30 +11,23 @@ import {
 import { Eye } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import type { Coin } from '@/entities/coin/model/types';
-import { useCompareSelection } from '@/features/compare/model/useCompareSelection';
-import { ActiveCoinFiltersSummary } from '@/features/coin-filters/ui/ActiveCoinFiltersSummary';
-import { CoinFiltersSheet } from '@/features/coin-filters/ui/CoinFiltersSheet';
-import { CoinSearchInput } from '@/features/coin-search/ui/CoinSearchInput';
-import { useCoinTableFilters } from '@/features/coin-filters/model/useCoinTableFilters';
-import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
+} from '@/shared/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import type { Coin } from '@/entities/coin';
+import { useCompareSelection } from '@/features/compare';
+import { ActiveCoinFiltersSummary } from '@/features/coin-filters';
+import { CoinFiltersSheet } from '@/features/coin-filters';
+import { CoinSearchInput } from '@/features/coin-search';
+import { useCoinTableFilters } from '@/features/coin-filters';
+import { useWatchlist } from '@/features/watchlist';
 import { PagingToolbar } from '@/shared/ui/PagingToolbar';
-import { createCoinTableColumns } from '@/widgets/coins-table/model/coinTableColumns';
+import { createCoinTableColumns } from '../model/coinTableColumns';
 
 interface AdvancedCoinsTableProps {
   coins: Coin[];

@@ -1,7 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 
-import { WatchlistProvider } from '@/features/watchlist/model/watchlist-context';
+import { WatchlistProvider } from '@/features/watchlist';
 import { appQueryClient } from '@/shared/lib/query-client';
 
 export function AppProviders({ children }: { children: ReactNode }) {

@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@/shared/ui/input';
 
 interface CoinSearchInputProps {
   value: string;

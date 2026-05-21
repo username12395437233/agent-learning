@@ -1,12 +1,12 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import type { Coin } from '@/entities/coin/model/types';
-import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
+import type { Coin } from '@/entities/coin';
+import { CoinChangeBadge } from '@/entities/coin';
 import { formatCurrency } from '@/shared/lib/formatters';
 
 interface CompareSelectionPanelProps {

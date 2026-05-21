@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getCoinById, getCoins } from '@/entities/coin/api/coin-service';
+import { getCoinById, getCoins } from '../api/coin-service';
 
 export function useCoinsQuery() {
   return useQuery({

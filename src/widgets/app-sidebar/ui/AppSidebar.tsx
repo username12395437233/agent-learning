@@ -1,9 +1,9 @@
 import { BarChart3, Coins, LayoutDashboard, Scale, Star } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
+import { Badge } from '@/shared/ui/badge';
+import { cn } from '@/shared/lib/utils';
+import { useWatchlist } from '@/features/watchlist';
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },

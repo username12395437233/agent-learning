@@ -1,10 +1,7 @@
-import type { Coin } from '@/entities/coin/model/types';
+import type { Coin } from '../model/types';
 
-import {
-  getCoinPaprikaTicker,
-  getCoinPaprikaTickers,
-} from '@/entities/coin/api/coinpaprika-client';
-import { mapCoinPaprikaTickerToCoin } from '@/entities/coin/api/coinpaprika-mapper';
+import { getCoinPaprikaTicker, getCoinPaprikaTickers } from './coinpaprika-client';
+import { mapCoinPaprikaTickerToCoin } from './coinpaprika-mapper';
 
 export async function getCoins(): Promise<Coin[]> {
   const tickers = await getCoinPaprikaTickers();

@@ -1,8 +1,8 @@
 import { Star } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
+import { Button } from '@/shared/ui/button';
+import { cn } from '@/shared/lib/utils';
+import { useWatchlist } from '../model/watchlist-context';
 
 interface WatchlistToggleButtonProps {
   coinId: string;
