@@ -1,6 +1,6 @@
 import { useCoinsQuery } from '@/entities/coin';
 import { useCompareSelection } from '@/features/compare';
-import { CompareSelectionPanel, CompareCoinsTable } from '@/widgets/coin-compare';
+import { CompareCoinsTable } from '@/widgets/coin-compare';
 import { CoinsTableSkeleton } from '@/widgets/coins-table';
 import { CompareBoard } from '@/widgets/compare-board';
 import { CompareChartsGrid } from '@/widgets/compare-charts';
@@ -8,8 +8,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 
 export function ComparePage() {
   const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
-  const { selectedIds, selectedCoins, canCompare, maxReached, toggleCoin, clearSelection } =
-    useCompareSelection(coins);
+  const { selectedCoins, canCompare, clearSelection } = useCompareSelection(coins);
 
   if (isLoading) {
     return <CoinsTableSkeleton />;
@@ -33,15 +32,7 @@ export function ComparePage() {
       comparisonTable={<CompareCoinsTable coins={selectedCoins} />}
       hasSelection={selectedCoins.length > 0}
       onClearSelection={clearSelection}
-      selectionPanel={
-        <CompareSelectionPanel
-          coins={coins}
-          selectedIds={selectedIds}
-          maxReached={maxReached}
-          onToggleCoin={toggleCoin}
-          onClearSelection={clearSelection}
-        />
-      }
+      selectedCount={selectedCoins.length}
     />
   );
 }

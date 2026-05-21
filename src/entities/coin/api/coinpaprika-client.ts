@@ -1,11 +1,11 @@
 const COINPAPRIKA_API_URL = 'https://api.coinpaprika.com/v1';
 
 export interface CoinPaprikaQuoteUsd {
-  price: number;
-  volume_24h: number;
-  market_cap: number;
-  percent_change_24h: number;
-  percent_change_7d?: number;
+  price: number | null;
+  volume_24h: number | null;
+  market_cap: number | null;
+  percent_change_24h: number | null;
+  percent_change_7d?: number | null;
 }
 
 export interface CoinPaprikaTicker {
@@ -13,7 +13,7 @@ export interface CoinPaprikaTicker {
   name: string;
   symbol: string;
   rank: number;
-  circulating_supply: number;
+  circulating_supply: number | null;
   max_supply: number | null;
   beta_value?: number | null;
   last_updated?: string;

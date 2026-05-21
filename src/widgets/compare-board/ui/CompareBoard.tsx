@@ -10,7 +10,7 @@ interface CompareBoardProps {
   comparisonTable: ReactNode;
   hasSelection: boolean;
   onClearSelection: () => void;
-  selectionPanel: ReactNode;
+  selectedCount: number;
 }
 
 export function CompareBoard({
@@ -19,7 +19,7 @@ export function CompareBoard({
   comparisonTable,
   hasSelection,
   onClearSelection,
-  selectionPanel,
+  selectedCount,
 }: CompareBoardProps) {
   return (
     <div className="space-y-6">
@@ -27,7 +27,7 @@ export function CompareBoard({
         <div className="space-y-2">
           <h2 className="text-3xl font-semibold tracking-tight">Compare</h2>
           <p className="text-muted-foreground">
-            Persisted compare board for 2-4 coins with direct metric and chart comparison.
+            Stored in localStorage. Add coins from market table to compare them here.
           </p>
         </div>
         {hasSelection ? (
@@ -37,15 +37,12 @@ export function CompareBoard({
         ) : null}
       </div>
 
-      {selectionPanel}
-
       {!hasSelection ? (
         <Card className="border-white/70 bg-white/85">
           <CardHeader>
             <CardTitle>No comparison selected</CardTitle>
             <CardDescription>
-              Add two or more coins from the compare candidates below to unlock side-by-side
-              analysis.
+              Add coins from the Coins page to start building a comparison list.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -54,27 +51,31 @@ export function CompareBoard({
             </Button>
           </CardContent>
         </Card>
-      ) : canCompare ? (
+      ) : (
         <>
           <Card className="border-white/70 bg-white/85">
             <CardHeader>
-              <CardTitle>Comparison table</CardTitle>
-              <CardDescription>Core market fields across selected coins.</CardDescription>
+              <CardTitle>Selected names</CardTitle>
+              <CardDescription>
+                {selectedCount} coins in current browser compare list.
+              </CardDescription>
             </CardHeader>
             <CardContent>{comparisonTable}</CardContent>
           </Card>
 
-          {charts}
+          {canCompare ? (
+            charts
+          ) : (
+            <Card className="border-white/70 bg-white/85">
+              <CardHeader>
+                <CardTitle>One more coin needed</CardTitle>
+                <CardDescription>
+                  Add another coin from the Coins page to render chart comparisons.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          )}
         </>
-      ) : (
-        <Card className="border-white/70 bg-white/85">
-          <CardHeader>
-            <CardTitle>One more coin needed</CardTitle>
-            <CardDescription>
-              Select at least two coins to render table and chart comparisons.
-            </CardDescription>
-          </CardHeader>
-        </Card>
       )}
     </div>
   );
