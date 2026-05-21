@@ -1,32 +1,18 @@
-import { useDeferredValue, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { useCoinsQuery } from '@/entities/coin/model/queries';
 import { useCompareSelection } from '@/features/compare/model/useCompareSelection';
-import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
-import { CompareTable } from '@/widgets/compare-table/ui/CompareTable';
+import { CompareSelectionPanel } from '@/widgets/coin-compare/ui/CompareSelectionPanel';
 import { CoinsTableSkeleton } from '@/widgets/coins-table/ui/CoinsTableSkeleton';
+import { CompareChartsGrid } from '@/widgets/compare-charts/ui/CompareChartsGrid';
+import { CompareCoinsTable } from '@/widgets/coin-compare/ui/CompareCoinsTable';
 
 export function ComparePage() {
   const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
-  const [search, setSearch] = useState('');
-  const deferredSearch = useDeferredValue(search);
-  const { selectedIds, selectedCoins, maxReached, toggleCoin, resetSelection } =
+  const { selectedIds, selectedCoins, canCompare, maxReached, toggleCoin, clearSelection } =
     useCompareSelection(coins);
-
-  const filteredCoins = useMemo(() => {
-    const normalizedSearch = deferredSearch.trim().toLowerCase();
-
-    return coins.filter(
-      (coin) =>
-        normalizedSearch.length === 0 ||
-        coin.name.toLowerCase().includes(normalizedSearch) ||
-        coin.symbol.toLowerCase().includes(normalizedSearch),
-    );
-  }, [coins, deferredSearch]);
 
   if (isLoading) {
     return <CoinsTableSkeleton />;
@@ -45,98 +31,67 @@ export function ComparePage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-3xl font-semibold tracking-tight">Compare</h2>
-        <p className="text-muted-foreground">
-          Pick up to four coins. Table below shows side-by-side market and thesis fields.
-        </p>
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="space-y-2">
+          <h2 className="text-3xl font-semibold tracking-tight">Compare</h2>
+          <p className="text-muted-foreground">
+            Persisted compare board for 2-4 coins with direct metric and chart comparison.
+          </p>
+        </div>
+        {selectedCoins.length > 0 ? (
+          <Button variant="outline" onClick={clearSelection}>
+            Clear compare list
+          </Button>
+        ) : null}
       </div>
 
-      <Card className="border-white/70 bg-white/85">
-        <CardHeader>
-          <CardTitle>Selection tray</CardTitle>
-          <CardDescription>
-            Current compare set lives in page state. Max four assets.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            {selectedCoins.map((coin) => (
-              <Badge key={coin.id} className="bg-slate-950 text-slate-50">
-                {coin.symbol}
-              </Badge>
-            ))}
-            {selectedCoins.length === 0 ? (
-              <span className="text-sm text-muted-foreground">Select at least two coins.</span>
-            ) : null}
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search compare candidates..."
-              className="max-w-md"
-            />
-            <Button variant="outline" onClick={resetSelection}>
-              Reset
+      <CompareSelectionPanel
+        coins={coins}
+        selectedIds={selectedIds}
+        maxReached={maxReached}
+        onToggleCoin={toggleCoin}
+        onClearSelection={clearSelection}
+      />
+
+      {selectedCoins.length === 0 ? (
+        <Card className="border-white/70 bg-white/85">
+          <CardHeader>
+            <CardTitle>No comparison selected</CardTitle>
+            <CardDescription>
+              Add two or more coins from the compare candidates below to unlock side-by-side
+              analysis.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link to="/coins">Browse coins</Link>
             </Button>
-          </div>
-          {maxReached ? (
-            <p className="text-sm text-amber-700">Max four selected. Remove one to add another.</p>
-          ) : null}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      ) : canCompare ? (
+        <>
+          <Card className="border-white/70 bg-white/85">
+            <CardHeader>
+              <CardTitle>Comparison table</CardTitle>
+              <CardDescription>Core market fields across selected coins.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CompareCoinsTable coins={selectedCoins} />
+            </CardContent>
+          </Card>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredCoins.map((coin) => {
-          const selected = selectedIds.includes(coin.id);
-
-          return (
-            <Card
-              key={coin.id}
-              className={selected ? 'border-sky-500 bg-sky-50' : 'border-white/70 bg-white/85'}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <CardTitle>{coin.name}</CardTitle>
-                    <CardDescription>
-                      {coin.symbol} · {coin.category}
-                    </CardDescription>
-                  </div>
-                  <WatchlistToggleButton coinId={coin.id} />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">{coin.thesis}</p>
-                <Button
-                  className="w-full"
-                  variant={selected ? 'default' : 'outline'}
-                  onClick={() => toggleCoin(coin.id)}
-                >
-                  {selected ? 'Remove from compare' : 'Add to compare'}
-                </Button>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      <Card className="border-white/70 bg-white/85">
-        <CardHeader>
-          <CardTitle>Comparison table</CardTitle>
-          <CardDescription>Shown when at least two coins are selected.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {selectedCoins.length >= 2 ? (
-            <CompareTable coins={selectedCoins} />
-          ) : (
-            <div className="rounded-2xl border border-dashed p-6 text-sm text-muted-foreground">
-              Select two or more coins to compare.
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          <CompareChartsGrid coins={selectedCoins} />
+        </>
+      ) : (
+        <Card className="border-white/70 bg-white/85">
+          <CardHeader>
+            <CardTitle>One more coin needed</CardTitle>
+            <CardDescription>
+              Select at least two coins to render table and chart comparisons.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      )}
     </div>
   );
 }

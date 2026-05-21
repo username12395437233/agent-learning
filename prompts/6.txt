@@ -1,0 +1,18 @@
+Replace Dashboard mock data with real computed market data.
+
+Use existing coins query/data layer.
+
+Need:
+- total market cap
+- average 24h change
+- rising coins count
+- falling coins count
+- top 5 gainers
+- top 5 losers
+- BTC and ETH dominance if both exist
+- watchlist summary if watchlist exists
+
+Keep calculations in separate helpers.
+Do not duplicate API logic.
+Keep Dashboard page as composition.
+Run lint/build.

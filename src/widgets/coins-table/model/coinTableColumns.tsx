@@ -1,5 +1,5 @@
 import type { ColumnDef, SortingState } from '@tanstack/react-table';
-import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, Scale } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -38,7 +38,16 @@ function SortableHeader({
   );
 }
 
-export function createCoinTableColumns(sorting: SortingState): ColumnDef<Coin>[] {
+interface CoinTableColumnOptions {
+  selectedCompareIds: string[];
+  maxCompareReached: boolean;
+  onToggleCompare: (coinId: string) => void;
+}
+
+export function createCoinTableColumns(
+  sorting: SortingState,
+  { selectedCompareIds, maxCompareReached, onToggleCompare }: CoinTableColumnOptions,
+): ColumnDef<Coin>[] {
   const currentSort = sorting[0];
 
   return [
@@ -150,6 +159,27 @@ export function createCoinTableColumns(sorting: SortingState): ColumnDef<Coin>[]
       accessorKey: 'category',
       header: 'Category',
       cell: ({ row }) => <Badge variant="outline">{row.original.category}</Badge>,
+    },
+    {
+      id: 'compare',
+      header: 'Compare',
+      cell: ({ row }) => {
+        const selected = selectedCompareIds.includes(row.original.id);
+
+        return (
+          <Button
+            variant={selected ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => onToggleCompare(row.original.id)}
+            disabled={!selected && maxCompareReached}
+          >
+            <Scale className="size-4" />
+            {selected ? 'Selected' : 'Compare'}
+          </Button>
+        );
+      },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       id: 'watchlist',

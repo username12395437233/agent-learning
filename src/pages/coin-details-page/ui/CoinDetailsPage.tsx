@@ -6,18 +6,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useCoinQuery } from '@/entities/coin/model/queries';
+import { useCoinsQuery } from '@/entities/coin/model/queries';
 import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
 import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
 import { formatCompactCurrency, formatCurrency, formatPercent } from '@/shared/lib/formatters';
 
 export function CoinDetailsPage() {
   const { coinId } = useParams<{ coinId: string }>();
-  const { data: coin, isLoading, isError, error } = useCoinQuery(coinId);
+  const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
 
   if (isLoading) {
     return <Skeleton className="h-72 w-full rounded-[32px]" />;
   }
+
+  const coin = coins.find((currentCoin) => currentCoin.id === coinId);
 
   if (isError || !coin) {
     return (

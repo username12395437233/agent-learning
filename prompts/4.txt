@@ -1,0 +1,12 @@
+Add pagination to CoinsTable using TanStack Table.
+
+Create reusable shared/ui/PagingToolbar:
+- page size: 10 / 25 / 50 / 100
+- default: 10
+- first / prev / next / last buttons
+- range text: "1–25 of 250"
+
+Pagination must work with current sorting/search/filters.
+Reset pageIndex to 0 when filters/search change.
+Use shadcn components via MCP if missing.
+Run lint/build.

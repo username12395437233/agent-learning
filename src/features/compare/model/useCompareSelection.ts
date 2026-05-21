@@ -1,24 +1,37 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { Coin } from '@/entities/coin/model/types';
+import { readLocalStorage, writeLocalStorage } from '@/shared/lib/local-storage';
 
+const COMPARE_STORAGE_KEY = 'crypto-market-radar/compare';
 const MAX_COMPARE_ITEMS = 4;
+const MIN_COMPARE_ITEMS = 2;
+const defaultSelection: string[] = [];
+
+function readCompareSelection() {
+  return readLocalStorage<string[]>(COMPARE_STORAGE_KEY, defaultSelection);
+}
 
 export function useCompareSelection(coins: Coin[]) {
-  const [selectedIds, setSelectedIds] = useState<string[]>(['bitcoin', 'ethereum']);
+  const [selectedIds, setSelectedIds] = useState<string[]>(readCompareSelection);
 
-  const selectedCoins = useMemo(
-    () => coins.filter((coin) => selectedIds.includes(coin.id)),
+  useEffect(() => {
+    writeLocalStorage(COMPARE_STORAGE_KEY, selectedIds);
+  }, [selectedIds]);
+
+  const availableSelectedIds = useMemo(
+    () => selectedIds.filter((selectedId) => coins.some((coin) => coin.id === selectedId)),
     [coins, selectedIds],
   );
 
-  function toggleCoin(coinId: string) {
-    setSelectedIds((currentSelectedIds) => {
-      if (currentSelectedIds.includes(coinId)) {
-        return currentSelectedIds.filter((currentCoinId) => currentCoinId !== coinId);
-      }
+  const selectedCoins = useMemo(
+    () => coins.filter((coin) => availableSelectedIds.includes(coin.id)),
+    [availableSelectedIds, coins],
+  );
 
-      if (currentSelectedIds.length >= MAX_COMPARE_ITEMS) {
+  function addCoin(coinId: string) {
+    setSelectedIds((currentSelectedIds) => {
+      if (currentSelectedIds.includes(coinId) || currentSelectedIds.length >= MAX_COMPARE_ITEMS) {
         return currentSelectedIds;
       }
 
@@ -26,11 +39,29 @@ export function useCompareSelection(coins: Coin[]) {
     });
   }
 
+  function removeCoin(coinId: string) {
+    setSelectedIds((currentSelectedIds) =>
+      currentSelectedIds.filter((currentCoinId) => currentCoinId !== coinId),
+    );
+  }
+
+  function toggleCoin(coinId: string) {
+    if (availableSelectedIds.includes(coinId)) {
+      removeCoin(coinId);
+      return;
+    }
+
+    addCoin(coinId);
+  }
+
   return {
-    selectedIds,
+    selectedIds: availableSelectedIds,
     selectedCoins,
-    maxReached: selectedIds.length >= MAX_COMPARE_ITEMS,
+    canCompare: selectedCoins.length >= MIN_COMPARE_ITEMS,
+    maxReached: availableSelectedIds.length >= MAX_COMPARE_ITEMS,
     toggleCoin,
-    resetSelection: () => setSelectedIds([]),
+    addCoin,
+    removeCoin,
+    clearSelection: () => setSelectedIds([]),
   };
 }

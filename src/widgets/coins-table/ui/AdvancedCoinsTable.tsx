@@ -1,13 +1,15 @@
 import {
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
+  type PaginationState,
   type SortingState,
   type VisibilityState,
   useReactTable,
 } from '@tanstack/react-table';
 import { Eye } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,11 +27,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { Coin } from '@/entities/coin/model/types';
+import { useCompareSelection } from '@/features/compare/model/useCompareSelection';
 import { ActiveCoinFiltersSummary } from '@/features/coin-filters/ui/ActiveCoinFiltersSummary';
 import { CoinFiltersSheet } from '@/features/coin-filters/ui/CoinFiltersSheet';
 import { CoinSearchInput } from '@/features/coin-search/ui/CoinSearchInput';
 import { useCoinTableFilters } from '@/features/coin-filters/model/useCoinTableFilters';
 import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
+import { PagingToolbar } from '@/shared/ui/PagingToolbar';
 import { createCoinTableColumns } from '@/widgets/coins-table/model/coinTableColumns';
 
 interface AdvancedCoinsTableProps {
@@ -38,26 +42,55 @@ interface AdvancedCoinsTableProps {
 
 export function AdvancedCoinsTable({ coins }: AdvancedCoinsTableProps) {
   const { watchlist } = useWatchlist();
+  const { selectedIds, maxReached, toggleCoin } = useCompareSelection(coins);
   const [sorting, setSorting] = useState<SortingState>([{ id: 'marketCap', desc: true }]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 25,
+  });
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     category: false,
   });
   const { filters, filteredCoins, activeFilters, hasActiveFilters, updateFilter, resetFilters } =
     useCoinTableFilters(coins, watchlist);
 
-  const columns = useMemo(() => createCoinTableColumns(sorting), [sorting]);
+  const columns = useMemo(
+    () =>
+      createCoinTableColumns(sorting, {
+        selectedCompareIds: selectedIds,
+        maxCompareReached: maxReached,
+        onToggleCompare: toggleCoin,
+      }),
+    [maxReached, selectedIds, sorting, toggleCoin],
+  );
+
+  useEffect(() => {
+    setPagination((currentPagination) => ({
+      ...currentPagination,
+      pageIndex: 0,
+    }));
+  }, [
+    filters.changeDirection,
+    filters.marketCapRange,
+    filters.priceRange,
+    filters.search,
+    filters.watchlistOnly,
+  ]);
 
   const table = useReactTable({
     data: filteredCoins,
     columns,
     state: {
       sorting,
+      pagination,
       columnVisibility,
     },
     onSortingChange: setSorting,
+    onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
@@ -153,6 +186,10 @@ export function AdvancedCoinsTable({ coins }: AdvancedCoinsTableProps) {
             )}
           </TableBody>
         </Table>
+
+        {filteredCoins.length > 0 ? (
+          <PagingToolbar table={table} totalItems={filteredCoins.length} />
+        ) : null}
       </div>
     </div>
   );

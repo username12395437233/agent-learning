@@ -1,0 +1,45 @@
+Improve Compare page/tab.
+
+Need:
+- make Compare visually and structurally similar to Watchlist
+- allow selecting 2–4 coins for comparison
+- persist selected coins in localStorage
+- add/remove coins from compare list
+- show empty state if no coins selected
+- reuse existing Coin type/data/query layer
+- do not duplicate API logic
+
+Add useful comparison blocks:
+1. Comparison table:
+   - rank
+   - price
+   - 24h change
+   - 7d change if available
+   - market cap
+   - volume 24h
+   - circulating supply
+
+2. Charts:
+   - bar chart: market cap comparison
+   - bar chart: 24h volume comparison
+   - bar chart: 24h / 7d percent change comparison
+   - optional: normalized score/radar chart if easy and readable
+
+Important:
+- do not invent fake historical data
+- only use fields that exist in current Coin model/API response
+- if chart library already exists, use it
+- if Recharts is not installed, install it
+- keep charts in separate reusable components
+- add loading/empty/error states
+
+Architecture:
+- keep Compare page as composition
+- create feature for compare coin selection if needed
+- create widgets/coin-compare or widgets/compare-charts
+- keep formatting helpers in shared/lib
+
+UI:
+- use shadcn Card, Button, Badge, Select, Table, Tabs if needed
+- install missing shadcn primitives via MCP
+- do not manually create shadcn primitives

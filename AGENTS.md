@@ -93,3 +93,9 @@ Use Feature-Sliced Design:
 ## Before implementing
 
 First explain the plan briefly, then edit files.
+
+## Validate after changes
+
+- npm run format
+- npm run lint
+- npm run build

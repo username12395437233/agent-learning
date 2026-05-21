@@ -13,7 +13,18 @@ export async function getCoins(): Promise<Coin[]> {
 }
 
 export async function getCoinById(coinId: string): Promise<Coin> {
-  const ticker = await getCoinPaprikaTicker(coinId);
+  try {
+    const ticker = await getCoinPaprikaTicker(coinId);
 
-  return mapCoinPaprikaTickerToCoin(ticker);
+    return mapCoinPaprikaTickerToCoin(ticker);
+  } catch {
+    const coins = await getCoins();
+    const coin = coins.find((currentCoin) => currentCoin.id === coinId);
+
+    if (!coin) {
+      throw new Error(`Coin "${coinId}" not found`);
+    }
+
+    return coin;
+  }
 }
