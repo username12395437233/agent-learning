@@ -1,10 +1,10 @@
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
-import { Input } from '@/shared/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { SearchInput } from '@/shared/ui/search-input';
 import {
   Sheet,
   SheetContent,
@@ -66,15 +66,11 @@ export function CoinFiltersSheet({
             <TabsContent value="general" className="space-y-6">
               <div className="space-y-2">
                 <p className="text-sm font-medium">Search</p>
-                <div className="relative w-full max-w-md">
-                  <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    value={filters.search}
-                    onChange={(event) => onChangeSearch(event.target.value)}
-                    placeholder="Search by coin name or symbol..."
-                    className="pl-9"
-                  />
-                </div>
+                <SearchInput
+                  value={filters.search}
+                  onChange={onChangeSearch}
+                  placeholder="Search by coin name or symbol..."
+                />
               </div>
 
               <div className="flex items-center gap-3 rounded-2xl border p-4">
