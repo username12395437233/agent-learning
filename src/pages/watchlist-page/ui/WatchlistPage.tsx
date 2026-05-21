@@ -2,17 +2,28 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useCoinsQuery } from '@/entities/coin/api/queries';
+import { useCoinsQuery } from '@/entities/coin/model/queries';
 import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
 import { CoinsTable } from '@/widgets/coins-table/ui/CoinsTable';
 import { CoinsTableSkeleton } from '@/widgets/coins-table/ui/CoinsTableSkeleton';
 
 export function WatchlistPage() {
-  const { data: coins = [], isLoading } = useCoinsQuery();
+  const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
   const { watchlist, clearWatchlist } = useWatchlist();
 
   if (isLoading) {
     return <CoinsTableSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Card className="border-white/70 bg-white/85">
+        <CardHeader>
+          <CardTitle>Watchlist unavailable</CardTitle>
+          <CardDescription>{error.message}</CardDescription>
+        </CardHeader>
+      </Card>
+    );
   }
 
   const watchlistCoins = coins.filter((coin) => watchlist.includes(coin.id));

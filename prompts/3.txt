@@ -1,0 +1,120 @@
+Task:
+Add advanced coins table with sorting and filters.
+
+Context:
+Project: Crypto Market Radar.
+Stack: React + TypeScript + Vite + Tailwind + shadcn/ui + TanStack Query + FSD.
+Coin data is already loaded from real API or existing coin data layer.
+Do not change API provider unless required.
+
+Goal:
+Replace the current coins list/table with a TanStack Table based implementation.
+Add sorting, filtering, search, column visibility if reasonable, and a right-side filters panel.
+
+Dependencies:
+- Check if @tanstack/react-table is installed.
+- If missing, install it.
+- Use existing TanStack Query setup for data fetching.
+- Use shadcn/ui primitives through shadcn MCP. Do not create shadcn primitives manually.
+
+Required shadcn/ui components:
+- table
+- button
+- input
+- badge
+- sheet
+- tabs
+- select
+- checkbox
+- dropdown-menu
+- skeleton
+
+If any primitive is missing, install it through shadcn MCP / shadcn registry.
+Do not manually create files in components/ui.
+
+Functional requirements:
+1. Use @tanstack/react-table for the Coins table.
+2. Add sortable columns:
+   - rank
+   - name
+   - price
+   - market cap
+   - volume 24h
+   - 24h change
+   - 7d change if available
+3. Add search by coin name and symbol.
+4. Add filters:
+   - positive / negative 24h change
+   - market cap range: all / large cap / mid cap / low cap
+   - price range: all / under $1 / $1-$100 / over $100
+   - watchlist only
+5. Add reset filters button.
+6. Add active filters summary above the table.
+7. Add empty state when no coins match filters.
+8. Add loading skeleton while data is loading.
+9. Add error state if data loading fails.
+10. Keep watchlist toggle working.
+11. Do not break existing Coin Details navigation.
+
+UI requirements:
+1. Main page should show:
+   - page title
+   - search input
+   - "Filters" button
+   - active filters summary
+   - coins table
+2. Filters button opens a right-side shadcn Sheet.
+3. Inside Sheet use Tabs:
+   - General: search, watchlist only
+   - Market: market cap and price filters
+   - Performance: 24h change filters
+4. Table headers should be clickable for sorting.
+5. Show sorting direction visually.
+6. Keep UI clean and compact.
+
+Architecture requirements:
+Use Feature-Sliced Design.
+
+Suggested structure:
+- entities/coin/model/types.ts
+- entities/coin/model/query hooks if already exist
+- features/coin-search/
+- features/coin-filters/
+- features/coin-sort/ if needed
+- features/watchlist-toggle/
+- widgets/coins-table/
+- pages/coins/
+
+Rules:
+- Table column definitions should not be mixed into the page component.
+- Keep CoinsPage as composition only.
+- Put reusable table logic into widgets/coins-table.
+- Put filter state/model logic into features/coin-filters.
+- Keep formatting helpers in shared/lib.
+- Do not duplicate Coin type.
+- Do not move API logic into UI components.
+- Do not manually create shadcn primitives.
+
+Implementation details:
+- Use useReactTable.
+- Use getCoreRowModel.
+- Use getSortedRowModel.
+- Use getFilteredRowModel if useful.
+- It is okay to do some custom filtering before passing data to the table if it keeps code cleaner.
+- Use typed ColumnDef<Coin>[].
+- Use controlled sorting state.
+- Use controlled filters state.
+- Prefer small typed components.
+
+Validation:
+After implementation run:
+- npm run lint
+- npm run format 
+- npm run build
+
+Output:
+1. Brief summary.
+2. Changed files.
+3. Installed packages/components.
+4. Validation result.
+5. Risks / manual checks.

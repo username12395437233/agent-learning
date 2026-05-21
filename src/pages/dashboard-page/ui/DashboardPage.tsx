@@ -1,8 +1,10 @@
 import { TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useCoinsQuery } from '@/entities/coin/api/queries';
+import { useCoinsQuery } from '@/entities/coin/model/queries';
 import { useWatchlist } from '@/features/watchlist/model/watchlist-context';
 import { CoinsTable } from '@/widgets/coins-table/ui/CoinsTable';
 import { CoinsTableSkeleton } from '@/widgets/coins-table/ui/CoinsTableSkeleton';
@@ -10,7 +12,7 @@ import { MarketOverview } from '@/widgets/market-overview/ui/MarketOverview';
 import { WatchlistOverview } from '@/widgets/watchlist-overview/ui/WatchlistOverview';
 
 export function DashboardPage() {
-  const { data: coins = [], isLoading } = useCoinsQuery();
+  const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
   const { watchlist } = useWatchlist();
 
   if (isLoading) {
@@ -18,6 +20,22 @@ export function DashboardPage() {
       <div className="space-y-6">
         <CoinsTableSkeleton />
       </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Card className="border-white/70 bg-white/85">
+        <CardHeader>
+          <CardTitle>Dashboard unavailable</CardTitle>
+          <CardDescription>{error.message}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button asChild>
+            <Link to="/coins">Open Coins</Link>
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 

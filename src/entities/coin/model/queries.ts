@@ -1,18 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchCoinById, fetchCoins } from '@/entities/coin/api/coin-service';
+import { getCoinById, getCoins } from '@/entities/coin/api/coin-service';
 
 export function useCoinsQuery() {
   return useQuery({
     queryKey: ['coins'],
-    queryFn: fetchCoins,
+    queryFn: getCoins,
   });
 }
 
 export function useCoinQuery(coinId: string | undefined) {
   return useQuery({
     queryKey: ['coins', coinId],
-    queryFn: () => fetchCoinById(coinId as string),
+    queryFn: () => getCoinById(coinId as string),
     enabled: Boolean(coinId),
   });
 }

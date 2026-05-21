@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useCoinQuery } from '@/entities/coin/api/queries';
+import { useCoinQuery } from '@/entities/coin/model/queries';
 import { CoinChangeBadge } from '@/entities/coin/ui/CoinChangeBadge';
 import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
 import { formatCompactCurrency, formatCurrency, formatPercent } from '@/shared/lib/formatters';
 
 export function CoinDetailsPage() {
   const { coinId } = useParams<{ coinId: string }>();
-  const { data: coin, isLoading, isError } = useCoinQuery(coinId);
+  const { data: coin, isLoading, isError, error } = useCoinQuery(coinId);
 
   if (isLoading) {
     return <Skeleton className="h-72 w-full rounded-[32px]" />;
@@ -23,7 +23,10 @@ export function CoinDetailsPage() {
     return (
       <Card className="border-white/70 bg-white/85">
         <CardContent className="space-y-4 pt-6">
-          <p className="text-lg font-medium">Coin not found.</p>
+          <p className="text-lg font-medium">Coin details unavailable.</p>
+          <p className="text-sm text-muted-foreground">
+            {error instanceof Error ? error.message : 'Coin not found.'}
+          </p>
           <Button asChild variant="outline">
             <Link to="/coins">Back to Coins</Link>
           </Button>
@@ -123,7 +126,8 @@ export function CoinDetailsPage() {
               <div className="rounded-2xl bg-slate-950 p-4 text-slate-50">
                 <p className="text-xs uppercase tracking-[0.24em] text-slate-300">MVP note</p>
                 <p className="mt-2 text-sm">
-                  Data mocked via async service. Perfect place to swap in real coin API later.
+                  Data loaded live from CoinPaprika ticker endpoint and mapped into internal coin
+                  model.
                 </p>
               </div>
             </TabsContent>

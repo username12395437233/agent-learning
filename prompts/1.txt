@@ -1,0 +1,46 @@
+Task:
+Create Crypto Market Radar MVP structure.
+
+Context:
+Frontend-only learning project.
+Stack: React, TypeScript, Vite, Tailwind, shadcn/ui, TanStack Query.
+No backend. No auth. No API keys. No OAuth.
+
+Product:
+Crypto dashboard for tracking coins, watchlist, and comparison.
+
+Pages:
+- Dashboard
+- Coins
+- Coin Details
+- Watchlist
+- Compare
+
+Rules:
+- use FSD
+- use mock data first
+- store watchlist in localStorage
+- use TanStack Query for async data layer
+- use shadcn/ui primitives
+- install missing shadcn components via shadcn MCP
+- do not manually create shadcn primitives
+
+Need shadcn components:
+- button
+- card
+- badge
+- table
+- input
+- select
+- skeleton
+- tabs
+
+Validation:
+- run npm run lint
+- run npm run build
+
+Output:
+- implementation plan first
+- then apply changes
+- then report changed files
+- then validation result

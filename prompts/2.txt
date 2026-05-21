@@ -1,0 +1,47 @@
+Task:
+Replace mock coin data with real CoinPaprika API integration.
+
+Context:
+Frontend-only learning project.
+Stack: React, TypeScript, Vite, Tailwind, shadcn/ui, TanStack Query, FSD.
+No backend. No auth. No API keys. No OAuth.
+
+API provider:
+Use CoinPaprika REST API.
+
+Endpoints:
+- GET https://api.coinpaprika.com/v1/tickers?quotes=USD
+- GET https://api.coinpaprika.com/v1/tickers/{coin_id}?quotes=USD
+
+Architecture rules:
+- UI must not depend on CoinPaprika response shape.
+- Create internal Coin model.
+- Add CoinPaprika mapper.
+- Keep API logic inside entities/coin/api.
+- Keep query hooks inside entities/coin/model.
+- Do not change UI primitives.
+- Do not manually create shadcn primitives.
+- Use existing shadcn components.
+
+Need:
+1. Create Coin type.
+2. Create CoinPaprika client.
+3. Create mapper from CoinPaprika ticker to Coin.
+4. Create getCoins.
+5. Create getCoinById.
+6. Create TanStack Query hooks:
+   - useCoinsQuery
+   - useCoinQuery
+7. Replace mock data usage on Coins page.
+8. Replace mock data usage on Coin Details page if it exists.
+9. Add loading, error, and empty states if missing.
+
+Validation:
+- run npm run lint
+- run npm run build
+
+Output:
+- summary
+- changed files
+- validation result
+- risks/manual checks

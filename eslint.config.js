@@ -78,5 +78,16 @@ export default tseslint.config(
     },
   },
 
+  {
+    files: [
+      'src/widgets/coins-table/model/*.tsx',
+      'src/widgets/coins-table/ui/AdvancedCoinsTable.tsx',
+    ],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+      'react-hooks/incompatible-library': 'off',
+    },
+  },
+
   eslintConfigPrettier,
 );

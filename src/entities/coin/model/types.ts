@@ -1,4 +1,4 @@
-export type CoinCategory = 'Store of Value' | 'Layer 1' | 'DeFi' | 'Exchange' | 'Meme' | 'AI';
+export type CoinCategory = 'Large Cap' | 'Mid Cap' | 'Small Cap' | 'Micro Cap' | 'Stablecoin';
 
 export type CoinRisk = 'Low' | 'Medium' | 'High';
 
@@ -9,6 +9,7 @@ export interface Coin {
   symbol: string;
   price: number;
   change24h: number;
+  change7d?: number;
   marketCap: number;
   volume24h: number;
   circulatingSupply: number;

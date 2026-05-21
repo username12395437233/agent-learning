@@ -1,27 +1,19 @@
-import { mockCoins } from '@/entities/coin/model/mock-coins';
 import type { Coin } from '@/entities/coin/model/types';
 
-const MOCK_DELAY_MS = 250;
+import {
+  getCoinPaprikaTicker,
+  getCoinPaprikaTickers,
+} from '@/entities/coin/api/coinpaprika-client';
+import { mapCoinPaprikaTickerToCoin } from '@/entities/coin/api/coinpaprika-mapper';
 
-function wait(delayMs: number) {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, delayMs);
-  });
+export async function getCoins(): Promise<Coin[]> {
+  const tickers = await getCoinPaprikaTickers();
+
+  return tickers.map(mapCoinPaprikaTickerToCoin);
 }
 
-export async function fetchCoins(): Promise<Coin[]> {
-  await wait(MOCK_DELAY_MS);
-  return mockCoins;
-}
+export async function getCoinById(coinId: string): Promise<Coin> {
+  const ticker = await getCoinPaprikaTicker(coinId);
 
-export async function fetchCoinById(coinId: string): Promise<Coin> {
-  await wait(MOCK_DELAY_MS);
-
-  const coin = mockCoins.find(({ id }) => id === coinId);
-
-  if (!coin) {
-    throw new Error(`Coin "${coinId}" not found`);
-  }
-
-  return coin;
+  return mapCoinPaprikaTickerToCoin(ticker);
 }

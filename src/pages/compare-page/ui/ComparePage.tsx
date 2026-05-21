@@ -4,14 +4,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useCoinsQuery } from '@/entities/coin/api/queries';
+import { useCoinsQuery } from '@/entities/coin/model/queries';
 import { useCompareSelection } from '@/features/compare/model/useCompareSelection';
 import { WatchlistToggleButton } from '@/features/watchlist/ui/WatchlistToggleButton';
 import { CompareTable } from '@/widgets/compare-table/ui/CompareTable';
 import { CoinsTableSkeleton } from '@/widgets/coins-table/ui/CoinsTableSkeleton';
 
 export function ComparePage() {
-  const { data: coins = [], isLoading } = useCoinsQuery();
+  const { data: coins = [], isLoading, isError, error } = useCoinsQuery();
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const { selectedIds, selectedCoins, maxReached, toggleCoin, resetSelection } =
@@ -30,6 +30,17 @@ export function ComparePage() {
 
   if (isLoading) {
     return <CoinsTableSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Card className="border-white/70 bg-white/85">
+        <CardHeader>
+          <CardTitle>Compare unavailable</CardTitle>
+          <CardDescription>{error.message}</CardDescription>
+        </CardHeader>
+      </Card>
+    );
   }
 
   return (
