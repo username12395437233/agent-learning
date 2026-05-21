@@ -1,0 +1,1 @@
+@DESIGN.md change design of application, we use shadcn, so you need to change only index.css and if needed components folder.

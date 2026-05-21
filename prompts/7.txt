@@ -1,0 +1,15 @@
+Refactor the project strictly according to Feature-Sliced Design.
+
+First analyze the current structure, then apply changes.
+
+Need:
+- move files to correct FSD layers
+- fix wrong imports between layers
+- split large components if needed
+- keep pages as composition only
+- move domain types/models/api to entities
+- move user actions to features
+- move large page blocks to widgets
+- move reusable UI/lib/helpers to shared
+- add public API index.ts files where useful
+- remove duplicate types/helpers
